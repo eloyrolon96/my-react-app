@@ -1,0 +1,53 @@
+{
+  "doctors": [
+    {
+      "id": 1,
+      "name": "Dr. House",
+      "email": "dr.house@doctorapp.com",
+      "picture_url": "https://www.laprensagrafica.com/__export/1706820605633/sites/prensagrafica/img/2024/02/01/dr_house.png_554688467.png"
+    },
+    {
+      "id": 2,
+      "name": "Good Doctor",
+      "email": "good.doctor@doctorapp.com",
+      "picture_url": "https://cdn.prod.website-files.com/63a9d9f94193b731e1b600b1/64904f7272dd3941d68f79e4_good-doctor.jpeg"
+    },
+    {
+      "id": 3,
+      "name": "Dr. Dolittle",
+      "email": "dr.dolittle@doctorapp.com",
+      "picture_url": "https://images.bauerhosting.com/legacy/empire-tmdb/films/3050/images/g97xTt18p0WWnj6wxLGC0vBKFwQ.jpg?ar=16%3A9&fit=crop&crop=top&auto=format&w=1440&q=80"
+    }
+  ],
+  "appointments": [
+    {
+      "id": 1,
+      "doctorId": 3,
+      "patientId": 999,
+      "date": "2024-08-20",
+      "time": "02:35"
+    },
+    {
+      "id": 2,
+      "doctorId": 2,
+      "patientId": 999,
+      "date": "2024-08-15",
+      "time": "04:35"
+    },
+    {
+      "id": 3,
+      "doctorId": 1,
+      "patientId": 999,
+      "date": "2024-08-01",
+      "time": "02:15"
+    },
+    {
+      "id": 4,
+      "doctorId": 1,
+      "patientId": 999,
+      "date": "2024-08-02",
+      "time": "04:35"
+    }
+  ],
+  "availability": []
+}
