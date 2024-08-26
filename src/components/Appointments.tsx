@@ -5,51 +5,51 @@ import { MdDelete } from "react-icons/md";
 import Doctor from './models/Doctor';
 import BookAppointmentForm from './BookAppointmentForm';
 
-const handleDelete = async (appointmentId: number) => {
-    console.log(`Deleting appointment with ID: ${appointmentId}`);
-
-    try {
-        const response = await fetch(`http://localhost:5000/api/data/appointments/${appointmentId}`, {
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-        });
-
-        if (!response.ok) {
-            throw new Error(`Network response was not ok. Status: ${response.status}`);
-        }
-
-        const result = await response.json();
-        console.log('Delete successful:', result);
-
-    } catch (error) {
-        console.error('Error deleting appointment:', error);
-    }
-};
-
 const Appointments: React.FC = () => {
-
     const [appointments, setAppointments] = useState<Appointment[]>([]);
     const [doctors, setDoctors] = useState<Doctor[]>([]);
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await fetch('http://localhost:5000/api/data');
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                const jsonData = await response.json();
-                setAppointments(jsonData.appointments);
-                setDoctors(jsonData.doctors);
-            } catch (error) {
-                console.error('Error fetching data:', error);
+    const fetchAppointments = async () => {
+        try {
+            const response = await fetch('http://localhost:5000/api/data');
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
             }
-        };
+            const jsonData = await response.json();
+            setAppointments(jsonData.appointments);
+            setDoctors(jsonData.doctors);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    };
 
-        fetchData();
-    }, [appointments]);
+    useEffect(() => {
+        fetchAppointments();
+    }, []);
+
+    const handleDelete = async (appointmentId: number) => {
+        console.log(`Deleting appointment with ID: ${appointmentId}`);
+        try {
+            const response = await fetch(`http://localhost:5000/api/data/appointments/${appointmentId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            });
+
+            if (!response.ok) {
+                throw new Error(`Network response was not ok. Status: ${response.status}`);
+            }
+
+            const result = await response.json();
+            console.log('Delete successful:', result);
+
+            fetchAppointments();
+
+        } catch (error) {
+            console.error('Error deleting appointment:', error);
+        }
+    };
 
     const findDoctorNameById = (doctorId: number) => {
         const doctor = doctors.find(doc => doc.id === doctorId);
@@ -58,9 +58,7 @@ const Appointments: React.FC = () => {
 
     return (
         <div className="appointments_container">
-
-            <h2 className="">Appointments</h2>
-
+            <h2>Appointments</h2>
             <div className="appointments_section">
                 <ul>
                     {appointments.length > 0 ? (
@@ -80,8 +78,7 @@ const Appointments: React.FC = () => {
                 </ul>
             </div>
 
-            <BookAppointmentForm />
-
+            <BookAppointmentForm onAppointmentAdded={fetchAppointments} />
         </div>
     );
 };

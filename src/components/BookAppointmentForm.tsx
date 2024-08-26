@@ -8,9 +8,11 @@ import { format } from 'date-fns';
 import TimeSelect from './TimeSelect';
 import DoctorSelector from './DoctorSelector';
 
-interface DoctorSelectorProps { }
+interface BookAppointmentFormProps {
+    onAppointmentAdded: () => void;
+}
 
-const BookAppointmentForm: React.FC<DoctorSelectorProps> = () => {
+const BookAppointmentForm: React.FC<BookAppointmentFormProps> = ({ onAppointmentAdded }) => {
     const [showDoctorSelector, setShowDoctorSelector] = useState(false);
     const [data, setData] = useState<Doctor[]>([]);
     const [availability, setAvailability] = useState<Appointment[]>([]);
@@ -74,7 +76,6 @@ const BookAppointmentForm: React.FC<DoctorSelectorProps> = () => {
 
     const tileDisabled = ({ date }: { date: Date }) => {
         const formattedDate = format(date, 'yyyy-MM-dd');
-
         return !availability.some(appt => format(appt.date, 'yyyy-MM-dd') === formattedDate);
     };
 
@@ -84,7 +85,6 @@ const BookAppointmentForm: React.FC<DoctorSelectorProps> = () => {
             date.getFullYear() === today.getFullYear() &&
             date.getMonth() === today.getMonth() &&
             date.getDate() === today.getDate();
-
         return isToday ? 'today' : null;
     };
 
@@ -120,6 +120,9 @@ const BookAppointmentForm: React.FC<DoctorSelectorProps> = () => {
 
             if (response.ok) {
                 console.log("Appointment booked successfully");
+
+                onAppointmentAdded();
+
             } else {
                 console.error('Error booking the appointment');
             }
